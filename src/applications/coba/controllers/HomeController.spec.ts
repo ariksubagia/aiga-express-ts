@@ -1,5 +1,5 @@
 import request from 'supertest'
-import application from "../../index"
+import application from "../../../index"
 
 describe("HomeController test sequence", function(){
     it("GET '/'", async function(){

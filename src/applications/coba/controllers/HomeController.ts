@@ -1,13 +1,15 @@
-import { autoInjectable } from "tsyringe"
 import type { Request, Response } from 'express'
+import type { ICobaService } from "../coba"
+import { autoInjectable, inject} from "tsyringe"
 import { Controller } from "@/cores/Application"
-import cobaMiddleware from "@/applications/middlewares/cobaMiddleware"
-import CobaService from "@/applications/services/CobaService"
+import cobaMiddleware from "@/applications/coba/middlewares/cobaMiddleware"
 
 @autoInjectable()
 @Controller("/")
 export default class HomeController {
-    constructor(private readonly cobaService: CobaService){}
+    constructor(
+        @inject("ICobaService") private readonly cobaService: ICobaService
+    ){}
 
     @Controller.GET("/")
     public list(req: Request, res: Response){

@@ -2,11 +2,6 @@ import { autoInjectable, container } from 'tsyringe'
 import express from 'express'
 import type { Express, Request, Response, NextFunction, Handler, Router } from 'express'
 
-enum metakeys{
-    ROUTERS = "__routers",
-    BASE_ROUTE = "__base_route"
-}
-
 export interface IApplication{
     run: () => void
     registerController: (controller: any ) => void
@@ -24,14 +19,6 @@ export interface IMiddleware{
     ( req: Request, res: Response, next: NextFunction ) : void
 }
 
-export enum RouteMethods{
-    GET = "get",
-    POST = "post",
-    PUT = "put",
-    PATCH = "patch",
-    DELETE = "delete"
-}
-
 export interface IRouteBase{
     baseRoute: string | symbol,
     middlewares: IMiddleware[]
@@ -42,6 +29,19 @@ export interface IRoute{
     handler: string | symbol
     route: string
     middlewares: IMiddleware[]
+}
+
+enum metakeys{
+    ROUTERS = "__routers",
+    BASE_ROUTE = "__base_route"
+}
+
+export enum RouteMethods{
+    GET = "get",
+    POST = "post",
+    PUT = "put",
+    PATCH = "patch",
+    DELETE = "delete"
 }
 
 @autoInjectable()
