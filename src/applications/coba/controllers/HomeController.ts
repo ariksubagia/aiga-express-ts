@@ -8,8 +8,18 @@ import type { ICobaService } from "@/applications/coba/types"
 import cobaMiddleware from "@/applications/coba/middlewares/cobaMiddleware"
 import CobaValidator, { type SchemaType as ValidatedType } from "@/applications/coba/validators/CobaValidator"
 
+/**
+ * Controller used for handle group of route, by using Controller decorators.
+ * Middleware, service, serializer, and validator will be called here.
+ * avoid calling repository directly in controller.
+ * avoid writing application logic in controller, all logic should be written in service (for easier code testing and mocking).
+ * avoid writing validation directly in controller, all validation should be writen in either validator schema or custom middleware.
+ * avoid calling service directly, use dependency injector (such as: tsyringe) to orchestrate service and factory. the reason, to minimalize coupling.
+ * register controller in controllers.ts to make it active
+ */
+
 @injectable()
-@Controller("/", [cobaMiddleware ])
+@Controller("/", [ cobaMiddleware ])
 export default class HomeController {
     constructor(
         @inject("ICobaService") private readonly cobaService: ICobaService

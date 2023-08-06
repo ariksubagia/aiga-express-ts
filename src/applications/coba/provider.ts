@@ -2,11 +2,10 @@ import { container } from "tsyringe"
 import type { IApplication } from "@/cores/Application"
 
 import CobaRepository from "@/applications/coba/repositories/CobaRepository"
-import controllers from "./controllers"
 import CobaService from "@/applications/coba/services/CobaService"
 import AnotherCoolService from "@/applications/coba/services/AnotherCoolService"
 
-export default function( application: IApplication ){
+export default function( application?: IApplication ){
     /**
      * REGISTER REPOSITORIES
      */
@@ -17,10 +16,4 @@ export default function( application: IApplication ){
      */
     // container.register("ICobaService", { useClass: CobaService })
     container.register("ICobaService", { useClass: AnotherCoolService })
-
-
-    /**
-     * APPLY CONTROLLERS
-    */
-    controllers(application)
 }

@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles --forceExit",
+    "test": "jest --detectOpenHandles --forceExit --verbose ./src",
+    "test:integration": "jest --detectOpenHandles --forceExit --verbose ./test/integration",
     "build": "tsc && tsc-alias",
     "preview": "node ./dist/index.js",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,json\" --ignore \"./src/**/*.spec.ts\" --exec \"tsx ./src/index.ts\""

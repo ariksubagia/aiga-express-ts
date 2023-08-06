@@ -1,11 +1,11 @@
 import { IApplication } from "./cores/Application";
-import cobaProvider from "@/applications/coba/provider"
+import cobaApplication from "@/applications/coba/app"
 
 /**
  * Place to introduce each application that already made in "applications" folder
- * each aplication require "provider.ts" file that should accept IApplication as parameter type
+ * each aplication require "app.ts" file that should accept IApplication as parameter type
  */
 export default function( application: IApplication ){
     //apply providers
-    cobaProvider(application)
+    cobaApplication(application)
 }
