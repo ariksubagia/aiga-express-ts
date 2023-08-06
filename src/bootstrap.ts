@@ -4,11 +4,14 @@ import morgan from 'morgan'
 import registry from './registry'
 import errors from './errors'
 
+/**
+  * In this function, is the place to register plugin for express
+ */
 export default function( application: IApplication ){
     application.getInstance()
-        //tambah multer agar bisa akses multipart/form-data
+        //add multer to be able to parse multipart/form-data encode type
         .use(multer().any())
-        //tambah morgan untuk logging di console
+        //add morgan for more detail in logging
         .use(morgan("common"))
 
     //apply registry

@@ -5,6 +5,10 @@ type OptionsType = {
     message? : string | Function
 }
 
+/**
+ * This function used to produce a middleware that could validate input based on Zod Schema
+ * All zod schema should've saved in src/applications/<app_folder>/validators/
+ */
 export function ValidatorMiddleware<T extends ZodTypeAny>(schema: T, options? : OptionsType) {
     const middleware: IMiddleware<RequestWithValidated<z.infer<T>>> = async (
         req: RequestWithValidated<z.infer<T>>, 

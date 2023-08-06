@@ -13,6 +13,9 @@ type ErrorFeedback = Exception & {
     options? : Record<string, any> 
 }
 
+/**
+ * Place to handle error that been thrown by next() function
+ */
 export default function( app: IApplication ){
     const errorHandler = function(
         err: ErrorFeedback, 
