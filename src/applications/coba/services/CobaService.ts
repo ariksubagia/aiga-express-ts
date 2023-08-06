@@ -1,10 +1,11 @@
-import CobaRepository from "@/applications/coba/repositories/CobaRepository";
-import { injectable } from "tsyringe";
-import { ICobaService } from "../coba";
+import { injectable, inject } from "tsyringe";
+import type { ICobaService, ICobaRepository } from "@/applications/coba/types";
 
 @injectable()
 export default class CobaService implements ICobaService{
-    constructor(private readonly cobaRepo: CobaRepository){}
+    constructor(
+        @inject("ICobaRepository") private readonly cobaRepo: ICobaRepository
+    ){}
 
     createCoba(data: Record<string, any>){
         return this.cobaRepo.create(data)

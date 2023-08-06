@@ -1,6 +1,15 @@
-import { autoInjectable, container } from 'tsyringe'
+import { container } from 'tsyringe'
 import express from 'express'
-import type { Express, Request, Response, NextFunction, Handler, Router } from 'express'
+import type { Express, Errback, Request as ExRequest, Response as ExResponse, NextFunction, Handler, Router } from 'express'
+
+export interface Request extends ExRequest{}
+export interface Response extends ExResponse{}
+export interface Next extends NextFunction{}
+export interface Exception extends Errback{}
+
+export type RequestWithValidated<T> = Request & {
+    validated?: T
+}
 
 export interface IApplication{
     run: () => void
@@ -15,8 +24,8 @@ export interface IService{}
 
 export interface IRepository{}
 
-export interface IMiddleware{
-    ( req: Request, res: Response, next: NextFunction ) : void
+export interface IMiddleware<T = Request>{
+    ( req: T, res: Response, next: Next ) : void
 }
 
 export interface IRouteBase{
@@ -31,11 +40,6 @@ export interface IRoute{
     middlewares: IMiddleware[]
 }
 
-enum metakeys{
-    ROUTERS = "__routers",
-    BASE_ROUTE = "__base_route"
-}
-
 export enum RouteMethods{
     GET = "get",
     POST = "post",
@@ -44,7 +48,11 @@ export enum RouteMethods{
     DELETE = "delete"
 }
 
-@autoInjectable()
+enum metakeys{
+    ROUTERS = "__routers",
+    BASE_ROUTE = "__base_route"
+}
+
 class Application implements IApplication{
     private controllers: Array<any> = []
     private instance: Express
@@ -73,9 +81,6 @@ class Application implements IApplication{
             if( routes.length <= 0 ) continue
 
             const router: { [handlerName: string] : any } = express.Router()
-            base.middlewares.forEach((middleware: IMiddleware) => {
-                router.use(middleware)
-            })
             
             const controllerInstance: { [handleName: string]: Handler } = container.resolve(controller)
             for( let route of routes ){
@@ -92,7 +97,7 @@ class Application implements IApplication{
                 })
             }
 
-            vm.instance.use(String(base.baseRoute), base.middlewares , router as Router)
+            vm.instance.use(String(base.baseRoute), base.middlewares, router as Router)
         }
     }
 
