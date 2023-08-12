@@ -1,7 +1,11 @@
-export default function( variableName: string, defaultValue: string | number | undefined = undefined ){
-    if( typeof process.env?.[variableName] !== 'undefined' ){
-        return process.env[variableName]
+function env<T>( variableName: string, defaultValue?: T ): T{
+    if( process.env?.[variableName] ){
+        return process.env[variableName] as T
     }
 
-    return defaultValue
+    if( defaultValue ) return defaultValue
+
+    throw new Error(`environment variable ${variableName} not found`)
 }
+
+export default env

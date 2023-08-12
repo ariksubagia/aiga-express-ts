@@ -1,11 +1,11 @@
-import { injectable } from 'tsyringe'
+import { injectable, inject } from 'tsyringe'
 import knex from 'knex'
 
 interface IDatabase{
     instance(): void
 }
 
-type ConnectionConfig = {
+export type ConnectionConfig = {
     client: string,
     host: string,
     port: string | number,
@@ -18,8 +18,8 @@ type ConnectionConfig = {
 export default class Database implements IDatabase{
     private readonly db: any
 
-    constructor(config: ConnectionConfig){
-        this.db = knex(config)
+    constructor(@inject('ConnectionConfig') private readonly config: ConnectionConfig){
+        this.db = knex(this.config)
     }
 
     instance(){

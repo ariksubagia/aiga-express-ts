@@ -22,11 +22,14 @@ import CobaValidator, { type SchemaType as ValidatedType } from "@/applications/
 @Controller("/", [ cobaMiddleware ])
 export default class HomeController {
     constructor(
-        @inject("ICobaService") private readonly cobaService: ICobaService
+        @inject("ICobaService") private readonly cobaService: ICobaService,
+        @inject("settings") private readonly settings: Record<string, any>
     ){}
 
     @Controller.GET("/")
     public list(req: Request, res: Response){
+        console.log({ settings: this.settings })
+
         res.json({
             message: "hello world",
             detail: null,
